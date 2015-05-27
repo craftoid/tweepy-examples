@@ -1,6 +1,6 @@
 import tweepy
-import sys
 import time
+from sys import argv
 from keys import *
 
 # authentication stuff ...
@@ -16,9 +16,8 @@ sleep_time = 6
 # let's get a text file to use for our bot
 try:
     textfile = argv[1]
-except:
-    textfile = "twitter-tos.txt"
-
+except IndexError:
+    textfile = "bible.txt"
 
 # trying to open it
 try:
@@ -34,10 +33,10 @@ try:
                 print(line)
                 print
                 api.update_status(status=line)
-            except tweepy.TweepError as errors:
+            except tweepy.TweepError as e:
                 print("Uh, oh! Something went wrong:")
-                for e in errors[0]:
-                    print("Twitter Error {}: '{}'".format(e["code"], e["message"]))
+                print(e)
+                # print("Twitter Error {}: '{}'".format(e["code"], e["message"]))
 
             # sleep a while so we don't hit the rate limit
             time.sleep(sleep_time)
